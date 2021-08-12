@@ -78,35 +78,34 @@ plt.title('NBR yangın sonrası',fontsize=36)
 
 ## Rasteri tif olarak kaydetmek için 
 
-# import gdal, osr
-# import numpy as np
+import gdal, osr
+import numpy as np
 
 
-# def array2raster(rasterfn,newRasterfn,array):
-#     raster = gdal.Open(rasterfn)
-#     geotransform = raster.GetGeoTransform()
-#     originX = geotransform[0]
-#     originY = geotransform[3]
-#     pixelWidth = geotransform[1]
-#     pixelHeight = geotransform[5]
-#     cols = raster.RasterXSize
-#     rows = raster.RasterYSize
+def array2raster(rasterfn,newRasterfn,array):
+    raster = gdal.Open(rasterfn)
+    geotransform = raster.GetGeoTransform()
+    originX = geotransform[0]
+    originY = geotransform[3]
+    pixelWidth = geotransform[1]
+    pixelHeight = geotransform[5]
+    cols = raster.RasterXSize
+    rows = raster.RasterYSize
 
-#     driver = gdal.GetDriverByName('GTiff')
-#     outRaster = driver.Create(newRasterfn, cols, rows, 1, gdal.GDT_Float32)
-#     outRaster.SetGeoTransform((originX, pixelWidth, 0, originY, 0, pixelHeight))
-#     outband = outRaster.GetRasterBand(1)
-#     outband.WriteArray(array)
-#     outRasterSRS = osr.SpatialReference()
-#     outRasterSRS.ImportFromWkt(raster.GetProjectionRef())
-#     outRaster.SetProjection(outRasterSRS.ExportToWkt())
-#     outband.FlushCache()
+    driver = gdal.GetDriverByName('GTiff')
+    outRaster = driver.Create(newRasterfn, cols, rows, 1, gdal.GDT_Float32)
+    outRaster.SetGeoTransform((originX, pixelWidth, 0, originY, 0, pixelHeight))
+    outband = outRaster.GetRasterBand(1)
+    outband.WriteArray(array)
+    outRasterSRS = osr.SpatialReference()
+    outRasterSRS.ImportFromWkt(raster.GetProjectionRef())
+    outRaster.SetProjection(outRasterSRS.ExportToWkt())
+    outband.FlushCache()
 
 
 
-# rasterfn = 'time1.tif'
-# newRasterfn = 'New.tif'
+rasterfn = 'time1.tif'
+array2raster(rasterfn,'dNBR.tif',snc)
+array2raster(rasterfn,'NBR1.tif',NBRo)
+array2raster(rasterfn,'NBR2.tif',NBRs)
 
-# array2raster(rasterfn,newRasterfn,snc)
-# array2raster(rasterfn,'NBRo.tif',NBRo)
-# array2raster(rasterfn,'NBRs.tif',NBRs)

@@ -5,12 +5,12 @@ Created on Thu Aug 12 13:18:58 2021
 @author: Samed
 """
 
-from osgeo import gdal
+from osgeo import gdal,osr
 import numpy as np
 import matplotlib.pyplot as plt
 
-onc = gdal.Open("time1.tif")
-snr = gdal.Open("time2.tif")
+onc = gdal.Open("time1clip.tif")
+snr = gdal.Open("time2clip.tif")
 
 gt1 = onc.GetGeoTransform()
 gt2 = snr.GetGeoTransform()
@@ -34,11 +34,11 @@ snc=np.zeros([m,n])
 for i in range(m):
     for j in range(n):
         if dNBR[i,j]<-0.25:
-            snc[i,j]=0
+            snc[i,j]=np.nan
         elif dNBR[i,j]>-0.25 and dNBR[i,j]<-0.1:
-            snc[i,j]=1
+            snc[i,j]=np.nan
         elif dNBR[i,j]>-0.1 and dNBR[i,j]<0.1:
-            snc[i,j]=2
+            snc[i,j]=np.nan
         elif dNBR[i,j]>0.1 and dNBR[i,j]<0.27:
             snc[i,j]=3
         elif dNBR[i,j]>0.27 and dNBR[i,j]<0.44:
@@ -78,7 +78,7 @@ plt.title('NBR yangın sonrası',fontsize=36)
 
 ## Rasteri tif olarak kaydetmek için 
 
-import gdal, osr
+# import gdal, osr
 import numpy as np
 
 
@@ -104,8 +104,8 @@ def array2raster(rasterfn,newRasterfn,array):
 
 
 
-rasterfn = 'time1.tif'
-array2raster(rasterfn,'dNBR.tif',snc)
-array2raster(rasterfn,'NBR1.tif',NBRo)
-array2raster(rasterfn,'NBR2.tif',NBRs)
+rasterfn = 'time1clip.tif'
+array2raster(rasterfn,'dNBRson.tif',snc)
+array2raster(rasterfn,'NBR1son.tif',NBRo)
+array2raster(rasterfn,'NBR2son.tif',NBRs)
 
